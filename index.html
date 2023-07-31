@@ -1,0 +1,2896 @@
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>SeptaPay.Platform.HitoBit.API v1</title>
+
+    <link href="https://unpkg.com/prismjs@1.20.0/themes/prism-okaidia.css" media="screen" rel="stylesheet">
+    <link href="slate/css/print.css" media="print" rel="stylesheet">
+    <link href="slate/css/screen.css" media="screen" rel="stylesheet">
+    <script src="slate/js/lib/jquery.min.js"></script>
+    <script src="slate/js/lib/jquery.highlight.js"></script>
+    <script src="slate/js/lib/energize.js"></script>
+    <script src="slate/js/lib/imagesloaded.min.js"></script>
+    <script src="slate/js/lib/lunr.min.js"></script>
+    <script src="slate/js/app/lang.js"></script>
+    <script src="slate/js/app/toc.js"></script>
+    
+    <script src="slate/js/app/search.js"></script>
+    
+    
+    <script type="text/javascript">
+      function adjustLanguageSelectorWidth() {
+        const elem = $('.dark-box > .lang-selector');
+        elem.width(elem.parent().width());
+      }
+      $(function() {
+        loadToc($('#toc'), '.toc-link', '.toc-list-h2, .toc-list-h3, .toc-list-h4, .toc-list-h5, .toc-list-h6', 10);
+        setupLanguages($('body').data('languages'));
+        $('.content').imagesLoaded( function() {
+          recacheHeights();
+          refreshToc();
+        });
+        $(window).resize(function() {
+          adjustLanguageSelectorWidth();
+        });
+        adjustLanguageSelectorWidth();
+      });
+      window.onpopstate = function() {
+        activateLanguage(getLanguageFromQueryString());
+      };
+    </script>
+    <!-- slate; content for the head element from source/includes/head.ejs -->
+<meta name="theme-color" content="#F3F7F9">
+
+  </head>
+
+  <body data-languages="[]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="slate/img/navbar.png" alt="Navigation">
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="slate/img/logo.png" alt="Logo" class="logo">
+      
+      
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      
+
+      
+        
+      
+        
+      
+        
+      
+
+      <div id="toc" class="toc-list-h1">
+	  	<ul class="toc-list-h1">
+        
+          <li>
+            <a href="#general-info" class="toc-h1 toc-link" data-title="General Info">General Info</a>
+            
+              <ul class="toc-list-h2">
+                
+                  <li>
+                    <a href="#general-api-information" class="toc-h2 toc-link" data-title="">General API Information</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#limits" class="toc-h2 toc-link" data-title="">LIMITS</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#endpoint-security-type" class="toc-h2 toc-link" data-title="">Endpoint security type</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#signed-(trade-and-user_data)-endpoint-security" class="toc-h2 toc-link" data-title="">SIGNED (TRADE and USER_DATA) Endpoint security</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#signed-endpoint-examples-for-post-%2Fapi%2Fv3%2Forder" class="toc-h2 toc-link" data-title="">SIGNED Endpoint Examples for POST /api/v3/order</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li>
+            <a href="#septapay-platform-hitobit-api-spot-account-trade" class="toc-h1 toc-link" data-title="Spot Account/Trade">Spot Account/Trade</a>
+            
+              <ul class="toc-list-h2">
+                
+                  <li>
+                    <a href="#account-information-(user_data)" class="toc-h2 toc-link" data-title="">Account Information (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#query-order-(user_data)" class="toc-h2 toc-link" data-title="">Query Order (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#new-order-(trade)" class="toc-h2 toc-link" data-title="">New Order (TRADE)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#cancel-order-(trade)" class="toc-h2 toc-link" data-title="">Cancel Order (TRADE)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#current-open-orders-(user_data)" class="toc-h2 toc-link" data-title="">Current Open Orders (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#cancel-all-open-orders-on-a-symbol-(trade)" class="toc-h2 toc-link" data-title="">Cancel all Open Orders on a Symbol (TRADE)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#all-orders-(user_data)" class="toc-h2 toc-link" data-title="">All Orders (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#query-oco-(user_data)" class="toc-h2 toc-link" data-title="">Query OCO (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#cancel-oco-(trade)" class="toc-h2 toc-link" data-title="">Cancel OCO (TRADE)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#query-open-oco-(user_data)" class="toc-h2 toc-link" data-title="">Query Open OCO (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#query-all-oco-(user_data)" class="toc-h2 toc-link" data-title="">Query all OCO (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#new-oco-(trade)" class="toc-h2 toc-link" data-title="">New OCO (TRADE)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#account-trade-list-(user_data)" class="toc-h2 toc-link" data-title="">Account Trade List (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#create-a-listenkey-(user_stream)" class="toc-h2 toc-link" data-title="">Create a ListenKey (USER_STREAM)</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li>
+            <a href="#septapay-platform-hitobit-api-wallet-endpoints" class="toc-h1 toc-link" data-title="Wallet Endpoints">Wallet Endpoints</a>
+            
+              <ul class="toc-list-h2">
+                
+                  <li>
+                    <a href="#trade-fee-(user_data)" class="toc-h2 toc-link" data-title="">Trade Fee (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#deposit-address-(supporting-network)-(user_data)" class="toc-h2 toc-link" data-title="">Deposit Address (supporting network) (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#deposit-history-(supporting-network)-(user_data)" class="toc-h2 toc-link" data-title="">Deposit History (supporting network) (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#withdraw-history-(supporting-network)-(user_data)" class="toc-h2 toc-link" data-title="">Withdraw History (supporting network) (USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#withdraw(user_data)" class="toc-h2 toc-link" data-title="">Withdraw(USER_DATA)</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#all-coins%E2%80%99-information-(user_data)" class="toc-h2 toc-link" data-title="">All Coins’ Information (USER_DATA)</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li>
+            <a href="#septapay-platform-hitobit-api-market-data-endpoints" class="toc-h1 toc-link" data-title="Market Data Endpoints">Market Data Endpoints</a>
+            
+              <ul class="toc-list-h2">
+                
+                  <li>
+                    <a href="#order-book" class="toc-h2 toc-link" data-title="">Order Book</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#24hr-ticker-price-change-statistics" class="toc-h2 toc-link" data-title="">24hr Ticker Price Change Statistics</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#symbol-price-ticker" class="toc-h2 toc-link" data-title="">Symbol Price Ticker</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#kline%2Fcandlestick-data" class="toc-h2 toc-link" data-title="">Kline/Candlestick Data</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#recent-trades-list" class="toc-h2 toc-link" data-title="">Recent Trades List</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#exchange-information" class="toc-h2 toc-link" data-title="">Exchange Information</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#test-connectivity" class="toc-h2 toc-link" data-title="">Test Connectivity</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#check-server-time" class="toc-h2 toc-link" data-title="">Check Server Time</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+          <li>
+            <a href="#error-codes" class="toc-h1 toc-link" data-title="Error codes">Error codes</a>
+            
+              <ul class="toc-list-h2">
+                
+                  <li>
+                    <a href="#10xx---general-server-or-network-issues" class="toc-h2 toc-link" data-title="">10xx - General Server or Network issues</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#11xx---request-issues" class="toc-h2 toc-link" data-title="">11xx - Request issues</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#messages-for--1010-error_msg_received--2010-new_order_rejected-and--2011-cancel_rejected" class="toc-h2 toc-link" data-title="">Messages for -1010 ERROR_MSG_RECEIVED -2010 NEW_ORDER_REJECTED and -2011 CANCEL_REJECTED</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#errors-regarding-post-%2Fapi%2Fv3%2Forder%2Fcancelreplace" class="toc-h2 toc-link" data-title="">Errors regarding POST /api/v3/order/cancelReplace</a>
+                    
+                  </li>
+                
+                  <li>
+                    <a href="#filter-failures" class="toc-h2 toc-link" data-title="">Filter failures</a>
+                    
+                  </li>
+                
+              </ul>
+            
+          </li>
+        
+		</ul>
+      </div>
+      
+        <ul class="toc-footer">
+          
+        </ul>
+      
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="general-info">General Info</h1>
+<h2 id="general-api-information">General API Information</h2>
+<ul>
+<li>The following base endpoints are available. Please use whichever works best for your setup:
+<ul>
+<li><strong><a href="https://api.hitobit.com">https://api.hitobit.com</a></strong></li>
+</ul>
+</li>
+<li>All endpoints return either a JSON object or array.</li>
+<li>Data is returned in <strong>ascending</strong> order. Oldest first, newest last.</li>
+<li>All time and timestamp related fields are in <strong>milliseconds</strong>.</li>
+</ul>
+<h3 id="http-return-codes">HTTP Return Codes</h3>
+<ul>
+<li>HTTP <code>4XX</code> return codes are used for malformed requests; the issue is on the sender’s side.</li>
+<li>HTTP <code>403</code> return code is used when the WAF Limit (Web Application Firewall) has been violated.</li>
+<li>HTTP <code>409</code> return code is used when a cancelReplace order partially succeeds. (i.e. if the cancellation of the order fails but the new order placement succeeds.)</li>
+<li>HTTP <code>429</code> return code is used when breaking a request rate limit.</li>
+<li>HTTP <code>418</code> return code is used when an IP has been auto-banned for continuing to send requests after receiving <code>429</code> codes.</li>
+<li>HTTP <code>5XX</code> return codes are used for internal errors; the issue is on Binance’s side.
+It is important to <strong>NOT</strong> treat this as a failure operation; the execution status is
+<strong>UNKNOWN</strong> and could have been a success.</li>
+</ul>
+<h3 id="error-codes">Error Codes</h3>
+<ul>
+<li>Any endpoint can return an ERROR</li>
+</ul>
+<p>Sample Payload below:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="token punctuation">{</span>
+  <span class="token string">"code"</span><span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1121</span><span class="token punctuation">,</span>
+  <span class="token string">"msg"</span><span class="token operator">:</span> <span class="token string">"Invalid symbol."</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ul>
+<li>Specific error codes and messages are defined in <a href="#error-codes">Errors Codes</a>.</li>
+</ul>
+<h3 id="general-information-on-endpoints">General Information on Endpoints</h3>
+<ul>
+<li>For <code>GET</code> endpoints, parameters must be sent as a <code>query string</code>.</li>
+<li>For <code>POST</code>, <code>PUT</code>, and <code>DELETE</code> endpoints, the parameters may be sent as a
+<code>query string</code> or in the <code>request body</code> with content type
+<code>application/x-www-form-urlencoded</code>.</li>
+<li>Parameters may be sent in any order.</li>
+<li>If a parameter sent in both the <code>query string</code> and <code>request body</code>, the
+<code>query string</code> parameter will be used.</li>
+</ul>
+<h2 id="limits">LIMITS</h2>
+<h3 id="general-info-on-limits">General Info on Limits</h3>
+<ul>
+<li>The following <code>intervalLetter</code> values for headers:
+<ul>
+<li>SECOND =&gt; S</li>
+<li>MINUTE =&gt; M</li>
+<li>HOUR =&gt; H</li>
+<li>DAY =&gt; D</li>
+</ul>
+</li>
+<li><code>intervalNum</code> describes the amount of the interval. For example, <code>intervalNum</code> 5 with <code>intervalLetter</code> M means “Every 5 minutes”.</li>
+<li>The <code>/api/v3/exchangeInfo</code> <code>rateLimits</code> array contains objects related to the exchange’s <code>RAW_REQUESTS</code>, <code>REQUEST_WEIGHT</code>, and <code>ORDERS</code> rate limits. These are further defined in the <code>ENUM definitions</code> section under <code>Rate limiters (rateLimitType)</code>.</li>
+<li>A 429 will be returned when either request rate limit or order rate limit is violated.</li>
+</ul>
+<h3 id="ip-limits">IP Limits</h3>
+<ul>
+<li>Every request will contain <code>X-MBX-USED-WEIGHT-(intervalNum)(intervalLetter)</code> in the response headers which has the current used weight for the IP for all request rate limiters defined.</li>
+<li>Each route has a <code>weight</code> which determines for the number of requests each endpoint counts for. Heavier endpoints and endpoints that do operations on multiple symbols will have a heavier <code>weight</code>.</li>
+<li>When a 429 is received, it’s your obligation as an API to back off and not spam the API.</li>
+<li><strong>Repeatedly violating rate limits and/or failing to back off after receiving 429s will result in an automated IP ban (HTTP status 418).</strong></li>
+<li>IP bans are tracked and <strong>scale in duration</strong> for repeat offenders, <strong>from 2 minutes to 3 days</strong>.</li>
+<li>A <code>Retry-After</code> header is sent with a 418 or 429 responses and will give the <strong>number of seconds</strong> required to wait, in the case of a 429, to prevent a ban, or, in the case of a 418, until the ban is over.</li>
+<li><strong>The limits on the API are based on the IPs, not the API keys.</strong></li>
+</ul>
+<h3 id="order-rate-limits">Order Rate Limits</h3>
+<ul>
+<li>Every successful order response will contain a <code>X-MBX-ORDER-COUNT-(intervalNum)(intervalLetter)</code> header which has the current order count for the account for all order rate limiters defined. To monitor order count usage, refer to <code>GET api/v3/rateLimit/order</code>.</li>
+<li>When the order count exceeds the limit, you will receive a 429 error without the <code>Retry-After</code> header. Please check the Order Rate Limit rules using <code>GET api/v3/exchangeInfo</code> and wait for reactivation accordingly.</li>
+<li>Rejected/unsuccessful orders are not guaranteed to have <code>X-MBX-ORDER-COUNT-**</code> headers in the response.</li>
+<li><strong>The order rate limit is counted against each account</strong>.</li>
+</ul>
+<h2 id="endpoint-security-type">Endpoint security type</h2>
+<ul>
+<li>Each endpoint has a security type that determines how you will
+interact with it. This is stated next to the NAME of the endpoint.</li>
+<li>If no security type is stated, assume the security type is NONE.</li>
+<li>API-keys are passed into the Rest API via the <code>X-MBX-APIKEY</code>
+header.</li>
+<li>API-keys and secret-keys <strong>are case sensitive</strong>.</li>
+<li>API-keys can be configured to only access certain types of secure endpoints.
+For example, one API-key could be used for TRADE only, while another API-key
+can access everything except for TRADE routes.</li>
+<li>By default, API-keys can access all secure routes.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Security Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NONE</td>
+<td>Endpoint can be accessed freely.</td>
+</tr>
+<tr>
+<td>TRADE</td>
+<td>Endpoint requires sending a valid API-Key and signature.</td>
+</tr>
+<tr>
+<td>USER_DATA</td>
+<td>Endpoint requires sending a valid API-Key and signature.</td>
+</tr>
+<tr>
+<td>USER_STREAM</td>
+<td>Endpoint requires sending a valid API-Key.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>TRADE</code> and <code>USER_DATA</code> endpoints are <code>SIGNED</code> endpoints.</li>
+</ul>
+<h2 id="signed-(trade-and-user_data)-endpoint-security">SIGNED (TRADE and USER_DATA) Endpoint security</h2>
+<ul>
+<li><code>SIGNED</code> endpoints require an additional parameter, <code>signature</code>, to be
+sent in the  <code>query string</code> or <code>request body</code>.</li>
+<li>Endpoints use <code>HMAC SHA256</code> signatures. The <code>HMAC SHA256 signature</code> is a keyed <code>HMAC SHA256</code> operation.
+Use your <code>secretKey</code> as the key and <code>totalParams</code> as the value for the HMAC operation.</li>
+<li>The <code>signature</code> is <strong>not case sensitive</strong>.</li>
+<li><code>totalParams</code> is defined as the <code>query string</code> concatenated with the
+<code>request body</code>.</li>
+</ul>
+<h3 id="timing-security">Timing security</h3>
+<ul>
+<li>A <code>SIGNED</code> endpoint also requires a parameter, <code>timestamp</code>, to be sent which
+should be the millisecond timestamp of when the request was created and sent.</li>
+<li>An additional parameter, <code>recvWindow</code>, may be sent to specify the number of
+milliseconds after <code>timestamp</code> the request is valid for. If <code>recvWindow</code>
+is not sent, <strong>it defaults to 5000</strong>.</li>
+<li>The logic is as follows:</li>
+</ul>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">if</span> <span class="token punctuation">(</span>timestamp <span class="token operator">&lt;</span> <span class="token punctuation">(</span>serverTime <span class="token operator">+</span> <span class="token number">1000</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>serverTime <span class="token operator">-</span> timestamp<span class="token punctuation">)</span> <span class="token operator">&lt;=</span> recvWindow<span class="token punctuation">)</span> 
+<span class="token punctuation">{</span>
+    <span class="token comment">// process request</span>
+<span class="token punctuation">}</span> 
+<span class="token keyword">else</span> 
+<span class="token punctuation">{</span>
+    <span class="token comment">// reject request</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><strong>Serious trading is about timing.</strong> Networks can be unstable and unreliable,
+which can lead to requests taking varying amounts of time to reach the
+servers. With <code>recvWindow</code>, you can specify that the request must be
+processed within a certain number of milliseconds or be rejected by the
+server.</p>
+<p><strong>It is recommended to use a small recvWindow of 5000 or less! The max cannot go beyond 60,000!</strong></p>
+<h2 id="signed-endpoint-examples-for-post-%2Fapi%2Fv3%2Forder">SIGNED Endpoint Examples for POST /api/v3/order</h2>
+<h3 id="hmac-keys">HMAC Keys</h3>
+<p>Here is a step-by-step example of how to send a valid signed payload from the
+Linux command line using <code>echo</code>, <code>openssl</code>, and <code>curl</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apiKey</code></td>
+<td>vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A</td>
+</tr>
+<tr>
+<td><code>secretKey</code></td>
+<td>NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>symbol</code></td>
+<td>LTCBTC</td>
+</tr>
+<tr>
+<td><code>side</code></td>
+<td>BUY</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>LIMIT</td>
+</tr>
+<tr>
+<td><code>timeInForce</code></td>
+<td>GTC</td>
+</tr>
+<tr>
+<td><code>quantity</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>price</code></td>
+<td>0.1</td>
+</tr>
+<tr>
+<td><code>recvWindow</code></td>
+<td>5000</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td>1499827319559</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-1%3A-as-a-request-body">Example 1: As a request body</h4>
+<ul>
+<li><strong>requestBody:</strong> symbol=LTCBTC&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559</li>
+<li><strong>HMAC SHA256 signature:</strong></li>
+</ul>
+<pre><code>[linux]$ echo -n &quot;symbol=LTCBTC&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559&quot; | openssl dgst -sha256 -hmac &quot;NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j&quot;
+(stdin)= c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
+</code></pre>
+<ul>
+<li><strong>curl command:</strong></li>
+</ul>
+<pre><code>(HMAC SHA256)
+[linux]$ curl -H &quot;X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A&quot; -X POST 'https://api.binance.com/api/v3/order' -d 'symbol=LTCBTC&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+</code></pre>
+<h4 id="example-2%3A-as-a-query-string">Example 2: As a query string</h4>
+<ul>
+<li><strong>queryString:</strong> symbol=LTCBTC&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559</li>
+<li><strong>HMAC SHA256 signature:</strong></li>
+</ul>
+<pre><code>[linux]$ echo -n &quot;symbol=LTCBTC&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559&quot; | openssl dgst -sha256 -hmac &quot;NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j&quot;
+(stdin)= c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
+</code></pre>
+<ul>
+<li><strong>curl command:</strong></li>
+</ul>
+<pre><code>(HMAC SHA256)
+[linux]$ curl -H &quot;X-MBX-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A&quot; -X POST 'https://api.binance.com/api/v3/order?symbol=LTCBTC&amp;side=BUY&amp;type=LIMIT&amp;timeInForce=GTC&amp;quantity=1&amp;price=0.1&amp;recvWindow=5000&amp;timestamp=1499827319559&amp;signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+</code></pre>
+<h1 id="septapay-platform-hitobit-api-spot-account-trade">Spot Account/Trade</h1>
+<h2 id="account-information-(user_data)">Account Information (USER_DATA)</h2>
+<p><code>GET /api/v3/account</code></p>
+<p>Get current account information.<br /><br /><b>Weight(IP):</b> 10</p>
+<h3 id="account-information-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"makerCommission"</span><span class="token operator">:</span> <span class="token number">15</span><span class="token punctuation">,</span>
+  <span class="token property">"takerCommission"</span><span class="token operator">:</span> <span class="token number">15</span><span class="token punctuation">,</span>
+  <span class="token property">"buyerCommission"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"sellerCommission"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"commissionRates"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"maker"</span><span class="token operator">:</span> <span class="token string">"0.00150000"</span><span class="token punctuation">,</span>
+    <span class="token property">"taker"</span><span class="token operator">:</span> <span class="token string">"0.00150000"</span><span class="token punctuation">,</span>
+    <span class="token property">"buyer"</span><span class="token operator">:</span> <span class="token string">"0.00000000"</span><span class="token punctuation">,</span>
+    <span class="token property">"seller"</span><span class="token operator">:</span> <span class="token string">"0.00000000"</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">"canTrade"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">"canWithdraw"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">"canDeposit"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token property">"brokered"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+  <span class="token property">"requireSelfTradePrevention"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+  <span class="token property">"updateTime"</span><span class="token operator">:</span> <span class="token string">"123456789"</span><span class="token punctuation">,</span>
+  <span class="token property">"accountType"</span><span class="token operator">:</span> <span class="token string">"SPOT"</span><span class="token punctuation">,</span>
+  <span class="token property">"balances"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"asset"</span><span class="token operator">:</span> <span class="token string">"LTC"</span><span class="token punctuation">,</span>
+      <span class="token property">"free"</span><span class="token operator">:</span> <span class="token string">"4763368.68006011"</span><span class="token punctuation">,</span>
+      <span class="token property">"locked"</span><span class="token operator">:</span> <span class="token string">"0.00000000"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"permissions"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token string">"string"</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="query-order-(user_data)">Query Order (USER_DATA)</h2>
+<p><code>GET /api/v3/order</code></p>
+<p>Check an order’s status.<br /><br /><b>Weight(IP):</b> 2</p>
+<h3 id="query-order-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>orderId</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>origClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+  <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+  <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span><span class="token punctuation">,</span>
+  <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">-1</span><span class="token punctuation">,</span>
+  <span class="token property">"transactTime"</span><span class="token operator">:</span> <span class="token string">"1507725176595"</span><span class="token punctuation">,</span>
+  <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">"stopPrice"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">"origQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"executedQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"cummulativeQuoteQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"origQuoteOrderQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"side"</span><span class="token operator">:</span> <span class="token string">"BUY"</span><span class="token punctuation">,</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"LIMIT"</span><span class="token punctuation">,</span>
+  <span class="token property">"timeInForce"</span><span class="token operator">:</span> <span class="token string">"GTC"</span><span class="token punctuation">,</span>
+  <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"CANCELED"</span><span class="token punctuation">,</span>
+  <span class="token property">"icebergQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"origClientOrderId"</span><span class="token operator">:</span> <span class="token string">"myOrder1"</span><span class="token punctuation">,</span>
+  <span class="token property">"updateTime"</span><span class="token operator">:</span> <span class="token string">"1499827319559"</span><span class="token punctuation">,</span>
+  <span class="token property">"time"</span><span class="token operator">:</span> <span class="token string">"1499827319559"</span><span class="token punctuation">,</span>
+  <span class="token property">"isWorking"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="new-order-(trade)">New Order (TRADE)</h2>
+<p><code>POST /api/v3/order</code></p>
+<p>Send in a new order. <br /><br /><b>Weight(UID):</b> 1 <b>Weight(IP):</b> 1</p>
+<h3 id="new-order-(trade)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>quoteOrderQty</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>stopPrice</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>Used with STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, and TAKE_PROFIT_LIMIT orders.</td>
+</tr>
+<tr>
+<td>newClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>A unique id among open orders. Automatically generated if not sent.</td>
+</tr>
+<tr>
+<td>icebergQty</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>Used with LIMIT, STOP_LOSS_LIMIT, and TAKE_PROFIT_LIMIT to create an iceberg order.</td>
+</tr>
+<tr>
+<td>orderResponseType</td>
+<td>any</td>
+<td>false</td>
+<td>Set the response JSON. ACK, RESULT, or FULL; MARKET and LIMIT order types default to FULL, all other orders default to ACK.</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>side</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>type</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>price</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>timeInForce</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+  <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+  <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span><span class="token punctuation">,</span>
+  <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">-1</span><span class="token punctuation">,</span>
+  <span class="token property">"transactTime"</span><span class="token operator">:</span> <span class="token string">"1507725176595"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="cancel-order-(trade)">Cancel Order (TRADE)</h2>
+<p><code>DELETE /api/v3/order</code></p>
+<p>Cancel an active order. <br /><br /><b>Weight(IP):</b> 1</p>
+<h3 id="cancel-order-(trade)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>orderId</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>origClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>newClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>Used to uniquely identify this cancel. Automatically generated by default.</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+  <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+  <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span><span class="token punctuation">,</span>
+  <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">-1</span><span class="token punctuation">,</span>
+  <span class="token property">"transactTime"</span><span class="token operator">:</span> <span class="token string">"1507725176595"</span><span class="token punctuation">,</span>
+  <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">"stopPrice"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  <span class="token property">"origQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"executedQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"cummulativeQuoteQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"origQuoteOrderQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"side"</span><span class="token operator">:</span> <span class="token string">"BUY"</span><span class="token punctuation">,</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"LIMIT"</span><span class="token punctuation">,</span>
+  <span class="token property">"timeInForce"</span><span class="token operator">:</span> <span class="token string">"GTC"</span><span class="token punctuation">,</span>
+  <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"CANCELED"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="current-open-orders-(user_data)">Current Open Orders (USER_DATA)</h2>
+<p><code>GET /api/v3/openorders</code></p>
+<p>Get all open orders on a symbol. Careful when accessing this with no symbol.<br /><br /><b>Weight(IP):</b> 3 for a single symbol; 40 when the symbol parameter is omitted;</p>
+<h3 id="current-open-orders-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+    <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+    <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span><span class="token punctuation">,</span>
+    <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">-1</span><span class="token punctuation">,</span>
+    <span class="token property">"transactTime"</span><span class="token operator">:</span> <span class="token string">"1507725176595"</span><span class="token punctuation">,</span>
+    <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    <span class="token property">"stopPrice"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    <span class="token property">"origQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"executedQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"cummulativeQuoteQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"origQuoteOrderQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"side"</span><span class="token operator">:</span> <span class="token string">"BUY"</span><span class="token punctuation">,</span>
+    <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"LIMIT"</span><span class="token punctuation">,</span>
+    <span class="token property">"timeInForce"</span><span class="token operator">:</span> <span class="token string">"GTC"</span><span class="token punctuation">,</span>
+    <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"CANCELED"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="cancel-all-open-orders-on-a-symbol-(trade)">Cancel all Open Orders on a Symbol (TRADE)</h2>
+<p><code>DELETE /api/v3/openorders</code></p>
+<p>Cancels all active orders on a symbol.<br /><br />This includes OCO orders.<br /><br /><b>Weight(IP):</b> 1</p>
+<h3 id="cancel-all-open-orders-on-a-symbol-(trade)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+    <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+    <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span><span class="token punctuation">,</span>
+    <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">-1</span><span class="token punctuation">,</span>
+    <span class="token property">"transactTime"</span><span class="token operator">:</span> <span class="token string">"1507725176595"</span><span class="token punctuation">,</span>
+    <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    <span class="token property">"stopPrice"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    <span class="token property">"origQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"executedQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"cummulativeQuoteQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"origQuoteOrderQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"side"</span><span class="token operator">:</span> <span class="token string">"BUY"</span><span class="token punctuation">,</span>
+    <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"LIMIT"</span><span class="token punctuation">,</span>
+    <span class="token property">"timeInForce"</span><span class="token operator">:</span> <span class="token string">"GTC"</span><span class="token punctuation">,</span>
+    <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"CANCELED"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="all-orders-(user_data)">All Orders (USER_DATA)</h2>
+<p><code>GET /api/v3/allorders</code></p>
+<p>Get all account orders; active, canceled, or filled.<br /><br /><b>Weight(IP):</b> 10 with symbol</p>
+<h3 id="all-orders-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>orderId</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Default 500; max 1000.</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+    <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+    <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span><span class="token punctuation">,</span>
+    <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">-1</span><span class="token punctuation">,</span>
+    <span class="token property">"transactTime"</span><span class="token operator">:</span> <span class="token string">"1507725176595"</span><span class="token punctuation">,</span>
+    <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    <span class="token property">"stopPrice"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    <span class="token property">"origQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"executedQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"cummulativeQuoteQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"origQuoteOrderQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"side"</span><span class="token operator">:</span> <span class="token string">"BUY"</span><span class="token punctuation">,</span>
+    <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"LIMIT"</span><span class="token punctuation">,</span>
+    <span class="token property">"timeInForce"</span><span class="token operator">:</span> <span class="token string">"GTC"</span><span class="token punctuation">,</span>
+    <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"CANCELED"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="query-oco-(user_data)">Query OCO (USER_DATA)</h2>
+<p><code>GET /api/v3/orderlist</code></p>
+<p>Retrieves a specific OCO based on provided optional parameters <br /><br /><b>Weight(IP):</b> 2</p>
+<h3 id="query-oco-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>orderListId</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>Either orderListId or origClientOrderId must be provided</td>
+</tr>
+<tr>
+<td>origClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>Either orderListId or origClientOrderId must be provided</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+  <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"contingencyType"</span><span class="token operator">:</span> <span class="token string">"OCO"</span><span class="token punctuation">,</span>
+  <span class="token property">"listStatusType"</span><span class="token operator">:</span> <span class="token string">"EXEC_STARTED"</span><span class="token punctuation">,</span>
+  <span class="token property">"listOrderStatus"</span><span class="token operator">:</span> <span class="token string">"EXECUTING"</span><span class="token punctuation">,</span>
+  <span class="token property">"listClientOrderId"</span><span class="token operator">:</span> <span class="token string">"JYVpp3F0f5CAG15DhtrqLp"</span><span class="token punctuation">,</span>
+  <span class="token property">"transactionTime"</span><span class="token operator">:</span> <span class="token string">"1563417480525"</span><span class="token punctuation">,</span>
+  <span class="token property">"orders"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+      <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+      <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="cancel-oco-(trade)">Cancel OCO (TRADE)</h2>
+<p><code>DELETE /api/v3/orderlist</code></p>
+<p>Cancel an entire Order List.<br /><br /><b>Weight(IP):</b> 1</p>
+<h3 id="cancel-oco-(trade)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>orderListId</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>Either orderListId or listClientOrderId must be provided</td>
+</tr>
+<tr>
+<td>listClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>Either orderListId or listClientOrderId must be provided</td>
+</tr>
+<tr>
+<td>newClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>Used to uniquely identify this cancel. Automatically generated by default</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+  <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"contingencyType"</span><span class="token operator">:</span> <span class="token string">"OCO"</span><span class="token punctuation">,</span>
+  <span class="token property">"listStatusType"</span><span class="token operator">:</span> <span class="token string">"EXEC_STARTED"</span><span class="token punctuation">,</span>
+  <span class="token property">"listOrderStatus"</span><span class="token operator">:</span> <span class="token string">"EXECUTING"</span><span class="token punctuation">,</span>
+  <span class="token property">"listClientOrderId"</span><span class="token operator">:</span> <span class="token string">"JYVpp3F0f5CAG15DhtrqLp"</span><span class="token punctuation">,</span>
+  <span class="token property">"transactionTime"</span><span class="token operator">:</span> <span class="token string">"1563417480525"</span><span class="token punctuation">,</span>
+  <span class="token property">"orders"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+      <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+      <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"orderReports"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+      <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+      <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span><span class="token punctuation">,</span>
+      <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">-1</span><span class="token punctuation">,</span>
+      <span class="token property">"transactTime"</span><span class="token operator">:</span> <span class="token string">"1507725176595"</span><span class="token punctuation">,</span>
+      <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+      <span class="token property">"stopPrice"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+      <span class="token property">"origQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token property">"executedQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token property">"cummulativeQuoteQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token property">"origQuoteOrderQty"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+      <span class="token property">"side"</span><span class="token operator">:</span> <span class="token string">"BUY"</span><span class="token punctuation">,</span>
+      <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"LIMIT"</span><span class="token punctuation">,</span>
+      <span class="token property">"timeInForce"</span><span class="token operator">:</span> <span class="token string">"GTC"</span><span class="token punctuation">,</span>
+      <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"CANCELED"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="query-open-oco-(user_data)">Query Open OCO (USER_DATA)</h2>
+<p><code>GET /api/v3/openorderlist</code></p>
+<p><b>Weight(IP):</b> 3</p>
+<h3 id="query-open-oco-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+    <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"contingencyType"</span><span class="token operator">:</span> <span class="token string">"OCO"</span><span class="token punctuation">,</span>
+    <span class="token property">"listStatusType"</span><span class="token operator">:</span> <span class="token string">"EXEC_STARTED"</span><span class="token punctuation">,</span>
+    <span class="token property">"listOrderStatus"</span><span class="token operator">:</span> <span class="token string">"EXECUTING"</span><span class="token punctuation">,</span>
+    <span class="token property">"listClientOrderId"</span><span class="token operator">:</span> <span class="token string">"JYVpp3F0f5CAG15DhtrqLp"</span><span class="token punctuation">,</span>
+    <span class="token property">"transactionTime"</span><span class="token operator">:</span> <span class="token string">"1563417480525"</span><span class="token punctuation">,</span>
+    <span class="token property">"orders"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+        <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+        <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="query-all-oco-(user_data)">Query all OCO (USER_DATA)</h2>
+<p><code>GET /api/v3/allorderlist</code></p>
+<p>Retrieves all OCO based on provided optional parameters <br /><br /><b>Weight(IP):</b> 10</p>
+<h3 id="query-all-oco-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fromId</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>If supplied, neither startTime or endTime can be provided</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Default Value: 500; Max Value: 1000</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+    <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"contingencyType"</span><span class="token operator">:</span> <span class="token string">"OCO"</span><span class="token punctuation">,</span>
+    <span class="token property">"listStatusType"</span><span class="token operator">:</span> <span class="token string">"EXEC_STARTED"</span><span class="token punctuation">,</span>
+    <span class="token property">"listOrderStatus"</span><span class="token operator">:</span> <span class="token string">"EXECUTING"</span><span class="token punctuation">,</span>
+    <span class="token property">"listClientOrderId"</span><span class="token operator">:</span> <span class="token string">"JYVpp3F0f5CAG15DhtrqLp"</span><span class="token punctuation">,</span>
+    <span class="token property">"transactionTime"</span><span class="token operator">:</span> <span class="token string">"1563417480525"</span><span class="token punctuation">,</span>
+    <span class="token property">"orders"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+        <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+        <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="new-oco-(trade)">New OCO (TRADE)</h2>
+<p><code>POST /api/v3/order/oco</code></p>
+<p>Send in a new OCO <br /><br /><b>Weight(UID):</b> 2 <b>Weight(IP):</b> 1</p>
+<h3 id="new-oco-(trade)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stopPrice</td>
+<td>number(decimal)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>limitIcebergQty</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>stopIcebergQty</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>stopLimitPrice</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>If provided, stopLimitTimeInForce is required.</td>
+</tr>
+<tr>
+<td>limitClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>A unique Id for the limit order</td>
+</tr>
+<tr>
+<td>listClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>A unique Id for the entire orderList</td>
+</tr>
+<tr>
+<td>stopClientOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>A unique Id for the stop loss/stop loss limit leg</td>
+</tr>
+<tr>
+<td>stopLimitTimeInForce</td>
+<td>any</td>
+<td>false</td>
+<td>Valid values are GTC/FOK/IOC</td>
+</tr>
+<tr>
+<td>orderResponseType</td>
+<td>any</td>
+<td>false</td>
+<td>Set the response JSON.</td>
+</tr>
+<tr>
+<td>trailingDelta</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>side</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>type</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>price</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>number(decimal)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>timeInForce</td>
+<td>any</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+  <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+  <span class="token property">"contingencyType"</span><span class="token operator">:</span> <span class="token string">"OCO"</span><span class="token punctuation">,</span>
+  <span class="token property">"listStatusType"</span><span class="token operator">:</span> <span class="token string">"EXEC_STARTED"</span><span class="token punctuation">,</span>
+  <span class="token property">"listOrderStatus"</span><span class="token operator">:</span> <span class="token string">"EXECUTING"</span><span class="token punctuation">,</span>
+  <span class="token property">"listClientOrderId"</span><span class="token operator">:</span> <span class="token string">"JYVpp3F0f5CAG15DhtrqLp"</span><span class="token punctuation">,</span>
+  <span class="token property">"transactionTime"</span><span class="token operator">:</span> <span class="token string">"1563417480525"</span><span class="token punctuation">,</span>
+  <span class="token property">"orders"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+      <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">28</span><span class="token punctuation">,</span>
+      <span class="token property">"clientOrderId"</span><span class="token operator">:</span> <span class="token string">"6gCrw2kRUAF9CvJDGP16IP"</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="account-trade-list-(user_data)">Account Trade List (USER_DATA)</h2>
+<p><code>GET /api/v3/mytrades</code></p>
+<p>Get trades for a specific account and symbol.<br /><br /><b>Weight(IP):</b> 10</p>
+<h3 id="account-trade-list-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>orderId</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>This can only be used in combination with symbol.</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>fromId</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>TradeId to fetch from. Default gets most recent trades.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Default 500; max 1000.</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+    <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">28457</span><span class="token punctuation">,</span>
+    <span class="token property">"orderId"</span><span class="token operator">:</span> <span class="token number">100234</span><span class="token punctuation">,</span>
+    <span class="token property">"orderListId"</span><span class="token operator">:</span> <span class="token number">-1</span><span class="token punctuation">,</span>
+    <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">4.000001</span><span class="token punctuation">,</span>
+    <span class="token property">"qty"</span><span class="token operator">:</span> <span class="token number">12</span><span class="token punctuation">,</span>
+    <span class="token property">"quoteQty"</span><span class="token operator">:</span> <span class="token number">48.00001</span><span class="token punctuation">,</span>
+    <span class="token property">"commission"</span><span class="token operator">:</span> <span class="token number">10.1</span><span class="token punctuation">,</span>
+    <span class="token property">"commissionAsset"</span><span class="token operator">:</span> <span class="token string">"BNB"</span><span class="token punctuation">,</span>
+    <span class="token property">"time"</span><span class="token operator">:</span> <span class="token string">"1499865549590"</span><span class="token punctuation">,</span>
+    <span class="token property">"isBuyer"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"isMaker"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token property">"isBestMatch"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="create-a-listenkey-(user_stream)">Create a ListenKey (USER_STREAM)</h2>
+<p><code>POST /api/v3/userdatastream</code></p>
+<p>Start a new user data stream. The stream will close after 60 minutes unless a keepalive is sent. If the account has an active listenKey, that listenKey will be returned and its validity will be extended for 60 minutes.<br /><br /><b>Weight:</b> 1</p>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"listenKey"</span><span class="token operator">:</span> <span class="token string">"pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a65a1"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="septapay-platform-hitobit-api-wallet-endpoints">Wallet Endpoints</h1>
+<h2 id="trade-fee-(user_data)">Trade Fee (USER_DATA)</h2>
+<p><code>GET /sapi/v1/asset/tradefee</code></p>
+<p>Fetch trade fee<br /><br /><b>Weight(IP):</b> 1</p>
+<h3 id="trade-fee-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+    <span class="token property">"makerCommission"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"takerCommission"</span><span class="token operator">:</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="deposit-address-(supporting-network)-(user_data)">Deposit Address (supporting network) (USER_DATA)</h2>
+<p><code>GET /sapi/v1/capital/deposit/address</code></p>
+<p>Fetch deposit address with network.<br /><br /><b>Weight(IP):</b> 10</p>
+<h3 id="deposit-address-(supporting-network)-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>coin</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>network</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"address"</span><span class="token operator">:</span> <span class="token string">"1HPn8Rx2y6nNSfagQBKy27GB99Vbzg89wv"</span><span class="token punctuation">,</span>
+  <span class="token property">"coin"</span><span class="token operator">:</span> <span class="token string">"BTC"</span><span class="token punctuation">,</span>
+  <span class="token property">"tag"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+  <span class="token property">"url"</span><span class="token operator">:</span> <span class="token string">"https://btc.com/1HPn8Rx2y6nNSfagQBKy27GB99Vbzg89wv"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="deposit-history-(supporting-network)-(user_data)">Deposit History (supporting network) (USER_DATA)</h2>
+<p><code>GET /sapi/v1/capital/deposit/hisrec</code></p>
+<p>Fetch deposit history.<br /><br /><b>Weight(IP):</b> 1</p>
+<h3 id="deposit-history-(supporting-network)-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>network</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>coin</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>txId</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>status</td>
+<td>any</td>
+<td>false</td>
+<td>0(0:pending,6: credited but cannot withdraw, 7=Wrong Deposit,8=Waiting User confirm, 1:success)</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>Default: 90 days from current timestamp</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>Default: present timestamp</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Default:0</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Default:1000, Max:1000</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"769800519366885376"</span><span class="token punctuation">,</span>
+    <span class="token property">"amount"</span><span class="token operator">:</span> <span class="token string">"0.001"</span><span class="token punctuation">,</span>
+    <span class="token property">"coin"</span><span class="token operator">:</span> <span class="token string">"BNB"</span><span class="token punctuation">,</span>
+    <span class="token property">"network"</span><span class="token operator">:</span> <span class="token string">"BNB"</span><span class="token punctuation">,</span>
+    <span class="token property">"status"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"address"</span><span class="token operator">:</span> <span class="token string">"bnb136ns6lfw4zs5hg4n85vdthaad7hq5m4gtkgf23"</span><span class="token punctuation">,</span>
+    <span class="token property">"addressTag"</span><span class="token operator">:</span> <span class="token string">"101764890"</span><span class="token punctuation">,</span>
+    <span class="token property">"txId"</span><span class="token operator">:</span> <span class="token string">"98A3EA560C6B3336D348B6C83F0F95ECE4F1F5919E94BD006E5BF3BF264FACFC"</span><span class="token punctuation">,</span>
+    <span class="token property">"insertTime"</span><span class="token operator">:</span> <span class="token string">"1661493146000"</span><span class="token punctuation">,</span>
+    <span class="token property">"transferType"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"confirmTimes"</span><span class="token operator">:</span> <span class="token string">"1/1"</span><span class="token punctuation">,</span>
+    <span class="token property">"unlockConfirm"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"walletType"</span><span class="token operator">:</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="withdraw-history-(supporting-network)-(user_data)">Withdraw History (supporting network) (USER_DATA)</h2>
+<p><code>GET /sapi/v1/capital/withdraw/history</code></p>
+<p>Fetch withdraw history.<br /><br /><b>Weight(IP):</b> 1</p>
+<h3 id="withdraw-history-(supporting-network)-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>coin</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>withdrawOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>status</td>
+<td>any</td>
+<td>false</td>
+<td>0(0:Email Sent,1:Cancelled 2:Awaiting Approval 3:Rejected 4:Processing 5:Failure 6:Completed)</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Default: 1000, Max: 1000</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>Default: 90 days from current timestamp</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>Default: present timestamp</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"id"</span><span class="token operator">:</span> <span class="token string">"b6ae22b3aa844210a7041aee7589627c"</span><span class="token punctuation">,</span>
+    <span class="token property">"amount"</span><span class="token operator">:</span> <span class="token string">"8.91000000"</span><span class="token punctuation">,</span>
+    <span class="token property">"transactionFee"</span><span class="token operator">:</span> <span class="token string">"0.004"</span><span class="token punctuation">,</span>
+    <span class="token property">"coin"</span><span class="token operator">:</span> <span class="token string">"USDT"</span><span class="token punctuation">,</span>
+    <span class="token property">"status"</span><span class="token operator">:</span> <span class="token number">6</span><span class="token punctuation">,</span>
+    <span class="token property">"address"</span><span class="token operator">:</span> <span class="token string">"0x94df8b352de7f46f64b01d3666bf6e936e44ce60"</span><span class="token punctuation">,</span>
+    <span class="token property">"txId"</span><span class="token operator">:</span> <span class="token string">"0xb5ef8c13b968a406cc62a93a8bd80f9e9a906ef1b3fcf20a2e48573c17659268"</span><span class="token punctuation">,</span>
+    <span class="token property">"applyTime"</span><span class="token operator">:</span> <span class="token string">"2019-10-12 11:12:02"</span><span class="token punctuation">,</span>
+    <span class="token property">"network"</span><span class="token operator">:</span> <span class="token string">"ETH"</span><span class="token punctuation">,</span>
+    <span class="token property">"transferType"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"info"</span><span class="token operator">:</span> <span class="token string">"The address is not valid. Please confirm with the recipient"</span><span class="token punctuation">,</span>
+    <span class="token property">"confirmNo"</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    <span class="token property">"walletType"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"txKey"</span><span class="token operator">:</span> <span class="token string">""</span><span class="token punctuation">,</span>
+    <span class="token property">"completeTime"</span><span class="token operator">:</span> <span class="token string">"2023-03-23 16:52:41"</span><span class="token punctuation">,</span>
+    <span class="token property">"withdrawOrderId"</span><span class="token operator">:</span> <span class="token string">"WITHDRAWtest123"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="withdraw(user_data)">Withdraw(USER_DATA)</h2>
+<p><code>POST /sapi/v1/capital/withdraw/apply</code></p>
+<p>Submit a withdraw request.<br /><br /><b>Weight(IP):</b> 10</p>
+<h3 id="withdraw(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>coin</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>network</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>address</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>addressTag</td>
+<td>string</td>
+<td>false</td>
+<td>Secondary address identifier for coins like XRP,XMR etc.</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>number(decimal)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>withdrawOrderId</td>
+<td>string</td>
+<td>false</td>
+<td>client id for withdraw</td>
+</tr>
+<tr>
+<td>transactionFeeFlag</td>
+<td>boolean</td>
+<td>false</td>
+<td>When making internal transfer, true for returning the fee to the destination account; false for returning the fee back to the departure account. Default false.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>false</td>
+<td>Description of the address. Space in name should be encoded into %20.</td>
+</tr>
+<tr>
+<td>walletType</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The wallet type for withdraw，0-spot wallet ，1-funding wallet. Default walletType is the current “selected wallet” under wallet-&gt;Fiat and Spot/Funding-&gt;Deposit</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="all-coins%E2%80%99-information-(user_data)">All Coins’ Information (USER_DATA)</h2>
+<p><code>GET /sapi/v1/capital/config/getall</code></p>
+<p>Get information of coins (available for deposit and withdraw) for user.<br /><br /><b>Weight(IP):</b> 10</p>
+<h3 id="all-coins'-information-(user_data)-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"coin"</span><span class="token operator">:</span> <span class="token string">"BTC"</span><span class="token punctuation">,</span>
+    <span class="token property">"depositAllEnable"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"free"</span><span class="token operator">:</span> <span class="token number">0.08074558</span><span class="token punctuation">,</span>
+    <span class="token property">"freeze"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"ipoable"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"ipoing"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"isLegalMoney"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token property">"locked"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"storage"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"trading"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token property">"withdrawAllEnable"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"Bitcoin"</span><span class="token punctuation">,</span>
+    <span class="token property">"withdrawing"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+    <span class="token property">"networkList"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">"addressRegex"</span><span class="token operator">:</span> <span class="token string">"^(bnb1)[0-9a-z]{38}$"</span><span class="token punctuation">,</span>
+        <span class="token property">"coin"</span><span class="token operator">:</span> <span class="token string">"BTC"</span><span class="token punctuation">,</span>
+        <span class="token property">"depositDesc"</span><span class="token operator">:</span> <span class="token string">"Wallet Maintenance, Deposit Suspended"</span><span class="token punctuation">,</span>
+        <span class="token property">"depositEnable"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token property">"isDefault"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token property">"memoRegex"</span><span class="token operator">:</span> <span class="token string">"^[0-9A-Za-z\\-_]{1,120}$"</span><span class="token punctuation">,</span>
+        <span class="token property">"minConfirm"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"BEP2"</span><span class="token punctuation">,</span>
+        <span class="token property">"network"</span><span class="token operator">:</span> <span class="token string">"BNB"</span><span class="token punctuation">,</span>
+        <span class="token property">"resetAddressStatus"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token property">"specialTips"</span><span class="token operator">:</span> <span class="token string">"Both a MEMO and an Address are required to successfully deposit your BEP2-BTCB tokens to Hitobit."</span><span class="token punctuation">,</span>
+        <span class="token property">"unlockConfirm"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token property">"withdrawDesc"</span><span class="token operator">:</span> <span class="token string">"Wallet Maintenance, Withdrawal Suspended"</span><span class="token punctuation">,</span>
+        <span class="token property">"withdrawEnable"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token property">"withdrawFee"</span><span class="token operator">:</span> <span class="token number">0.0000022</span><span class="token punctuation">,</span>
+        <span class="token property">"withdrawIntegerMultiple"</span><span class="token operator">:</span> <span class="token number">1e-8</span><span class="token punctuation">,</span>
+        <span class="token property">"withdrawMax"</span><span class="token operator">:</span> <span class="token number">10000000000</span><span class="token punctuation">,</span>
+        <span class="token property">"withdrawMin"</span><span class="token operator">:</span> <span class="token number">0.0000044</span><span class="token punctuation">,</span>
+        <span class="token property">"sameAddress"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token property">"estimatedArrivalTime"</span><span class="token operator">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
+        <span class="token property">"busy"</span><span class="token operator">:</span> <span class="token boolean">false</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h1 id="septapay-platform-hitobit-api-market-data-endpoints">Market Data Endpoints</h1>
+<h2 id="order-book">Order Book</h2>
+<p><code>GET /api/v3/depth</code></p>
+<p><b>Weight(IP):</b></p>
+<table>
+  <thead>
+    <tr>
+      <th>Limit</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1-100</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>101-500</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>501-1000</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>1001-5000</td>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>
+<h3 id="order-book-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Default 100; max 5000.If limit &gt; 5000, then the response will truncate to 5000.</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"s"</span><span class="token operator">:</span> <span class="token string">"BTC"</span><span class="token punctuation">,</span>
+  <span class="token property">"T"</span><span class="token operator">:</span> <span class="token string">"1565246363776"</span><span class="token punctuation">,</span>
+  <span class="token property">"U"</span><span class="token operator">:</span> <span class="token number">1027024</span><span class="token punctuation">,</span>
+  <span class="token property">"lastUpdateId"</span><span class="token operator">:</span> <span class="token number">1027024</span><span class="token punctuation">,</span>
+  <span class="token property">"pu"</span><span class="token operator">:</span> <span class="token number">1027024</span><span class="token punctuation">,</span>
+  <span class="token property">"bids"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+      <span class="token property">"quantity"</span><span class="token operator">:</span> <span class="token number">431</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"asks"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"price"</span><span class="token operator">:</span> <span class="token number">4</span><span class="token punctuation">,</span>
+      <span class="token property">"quantity"</span><span class="token operator">:</span> <span class="token number">431</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="24hr-ticker-price-change-statistics">24hr Ticker Price Change Statistics</h2>
+<p><code>GET /api/v3/ticker/24hr</code></p>
+<p>24 hour rolling window price change statistics. <b>Careful</b> when accessing this with no symbol.<br /><br /><b>Weight(IP):</b><table><thead><tr><th>Parameter</th><th>Symbols Provided</th><th>Weight</th></tr></thead><tbody><tr><td rowspan="2">symbol </td><td> 1 </td><td> 1 </td></tr><tr><td> symbol parameter is omitted</td><td>40</td></tr><tr><td rowspan="4"> symbols </td><td> 1 - 20 </td><td> 1 </td></tr><tr><td> 21 - 100 </td><td> 20 </td></tr><tr><td> 101 or more</td><td>40</td></tr><tr><td>symbols parameter is omitted</td><td>40</td></tr></tbody></table></p>
+<h3 id="24hr-ticker-price-change-statistics-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>false</td>
+<td>Parameter symbol and symbols cannot be used in combination.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>symbols</td>
+<td>array[string]</td>
+<td>false</td>
+<td>Examples of accepted format for the symbols parameter: [“BTCUSDT”,“BNBUSDT”]</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>type</td>
+<td>any</td>
+<td>false</td>
+<td>Supported values: FULL or MINI.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="detailed-descriptions">Detailed descriptions</h4>
+<p><strong>symbol</strong>: Parameter symbol and symbols cannot be used in combination.
+If neither parameter is sent, prices for all symbols will be returned in an array.</p>
+<p><strong>symbols</strong>: Examples of accepted format for the symbols parameter: [“BTCUSDT”,“BNBUSDT”]
+or
+%5B%22BTCUSDT%22,%22BNBUSDT%22%5D</p>
+<p><strong>type</strong>: Supported values: FULL or MINI.
+If none provided, the default is FULL</p>
+<h2 id="symbol-price-ticker">Symbol Price Ticker</h2>
+<p><code>GET /api/v3/ticker/price</code></p>
+<p>Latest price for a symbol or symbols.<br /><br /><b>Weight(IP):</b><table><thead><tr><th>Parameter</th><th>Symbols Provided</th><th>Weight</th></tr></thead><tbody><tr><td rowspan="2"> symbol </td><td> 1 </td><td> 1 </td></tr><tr><td> symbol parameter is omitted</td><td>2</td></tr><tr><td>symbols</td><td>Any</td><td>2</td></tr></tbody></table></p>
+<h3 id="symbol-price-ticker-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>false</td>
+<td>Parameter symbol and symbols cannot be used in combination.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>symbols</td>
+<td>array[string]</td>
+<td>false</td>
+<td>Examples of accepted format for the symbols parameter: [“BTCUSDT”,“BNBUSDT”]</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="detailed-descriptions-1">Detailed descriptions</h4>
+<p><strong>symbol</strong>: Parameter symbol and symbols cannot be used in combination.
+If neither parameter is sent, prices for all symbols will be returned in an array.</p>
+<p><strong>symbols</strong>: Examples of accepted format for the symbols parameter: [“BTCUSDT”,“BNBUSDT”]
+or
+%5B%22BTCUSDT%22,%22BNBUSDT%22%5D</p>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"BTCUSDT"</span><span class="token punctuation">,</span>
+  <span class="token property">"Price"</span><span class="token operator">:</span> <span class="token number">4.000002</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="kline%2Fcandlestick-data">Kline/Candlestick Data</h2>
+<p><code>GET /api/v3/klines</code></p>
+<p>Kline/candlestick bars for a symbol.<br /><br />Klines are uniquely identified by their open time.<br /><br /><b>Weight(IP):</b> 1</p>
+<h3 id="kline/candlestick-data-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>interval</td>
+<td>any</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Default 500; max 1000.</td>
+</tr>
+<tr>
+<td>startTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>integer(int64)</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"openTime"</span><span class="token operator">:</span> <span class="token string">"1499040000000"</span><span class="token punctuation">,</span>
+    <span class="token property">"open"</span><span class="token operator">:</span> <span class="token number">0.0163479</span><span class="token punctuation">,</span>
+    <span class="token property">"high"</span><span class="token operator">:</span> <span class="token number">0.8</span><span class="token punctuation">,</span>
+    <span class="token property">"low"</span><span class="token operator">:</span> <span class="token number">0.015758</span><span class="token punctuation">,</span>
+    <span class="token property">"close"</span><span class="token operator">:</span> <span class="token number">0.015771</span><span class="token punctuation">,</span>
+    <span class="token property">"baseVolume"</span><span class="token operator">:</span> <span class="token number">148976.11</span><span class="token punctuation">,</span>
+    <span class="token property">"closeTime"</span><span class="token operator">:</span> <span class="token string">"1499644799999"</span><span class="token punctuation">,</span>
+    <span class="token property">"quoteVolume"</span><span class="token operator">:</span> <span class="token number">2434.1907</span><span class="token punctuation">,</span>
+    <span class="token property">"tradeCount"</span><span class="token operator">:</span> <span class="token number">308</span><span class="token punctuation">,</span>
+    <span class="token property">"takerBuyBaseVolume"</span><span class="token operator">:</span> <span class="token number">1756.874</span><span class="token punctuation">,</span>
+    <span class="token property">"takerBuyQuoteVolume"</span><span class="token operator">:</span> <span class="token number">28.466944</span><span class="token punctuation">,</span>
+    <span class="token property">"ignore"</span><span class="token operator">:</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="recent-trades-list">Recent Trades List</h2>
+<p><code>GET /api/v3/trades</code></p>
+<p>Get recent trades.<br /><br /><b>Weight(IP):</b> 1</p>
+<h3 id="recent-trades-list-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>true</td>
+<td>none</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>Default 500; max 1000.</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    <span class="token property">"id"</span><span class="token operator">:</span> <span class="token number">28457</span><span class="token punctuation">,</span>
+    <span class="token property">"Price"</span><span class="token operator">:</span> <span class="token number">4.000001</span><span class="token punctuation">,</span>
+    <span class="token property">"BaseQuantity"</span><span class="token operator">:</span> <span class="token number">12</span><span class="token punctuation">,</span>
+    <span class="token property">"QuoteQuantity"</span><span class="token operator">:</span> <span class="token number">48.00001</span><span class="token punctuation">,</span>
+    <span class="token property">"Time"</span><span class="token operator">:</span> <span class="token string">"1499865549590"</span><span class="token punctuation">,</span>
+    <span class="token property">"isBuyerMaker"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token property">"IsBestMatch"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+</code></pre>
+<h2 id="exchange-information">Exchange Information</h2>
+<p><code>GET /api/v3/exchangeinfo</code></p>
+<p>Current exchange trading rules and symbol information<br /><br /><b>Weight(IP):</b> 10</p>
+<h3 id="exchange-information-parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Mandatory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>symbol</td>
+<td>string</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>symbols</td>
+<td>array[string]</td>
+<td>false</td>
+<td>none</td>
+</tr>
+<tr>
+<td>recvWindow</td>
+<td>integer(int32)</td>
+<td>false</td>
+<td>The value cannot be greater than 60000</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>integer(int64)</td>
+<td>true</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"timeZone"</span><span class="token operator">:</span> <span class="token string">"UTC"</span><span class="token punctuation">,</span>
+  <span class="token property">"serverTime"</span><span class="token operator">:</span> <span class="token string">"1565246363776"</span><span class="token punctuation">,</span>
+  <span class="token property">"rateLimits"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"Interval"</span><span class="token operator">:</span> <span class="token string">"MINUTE"</span><span class="token punctuation">,</span>
+      <span class="token property">"rateLimitType"</span><span class="token operator">:</span> <span class="token string">"REQUEST_WEIGHT"</span><span class="token punctuation">,</span>
+      <span class="token property">"intervalNum"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      <span class="token property">"Limit"</span><span class="token operator">:</span> <span class="token number">1200</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"symbols"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">"symbol"</span><span class="token operator">:</span> <span class="token string">"ETHBTC"</span><span class="token punctuation">,</span>
+      <span class="token property">"status"</span><span class="token operator">:</span> <span class="token string">"TRADING"</span><span class="token punctuation">,</span>
+      <span class="token property">"baseAsset"</span><span class="token operator">:</span> <span class="token string">"ETH"</span><span class="token punctuation">,</span>
+      <span class="token property">"baseAssetPrecision"</span><span class="token operator">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
+      <span class="token property">"quoteAsset"</span><span class="token operator">:</span> <span class="token string">"BTC"</span><span class="token punctuation">,</span>
+      <span class="token property">"quotePrecision"</span><span class="token operator">:</span> <span class="token number">8</span><span class="token punctuation">,</span>
+      <span class="token property">"orderTypes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"LIMIT"</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"iceBergAllowed"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">"isSpotTradingAllowed"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">"isMarginTradingAllowed"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">"ocoAllowed"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">"quoteOrderQtyMarketAllowed"</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">"baseCommissionPrecision"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      <span class="token property">"quoteCommissionPrecision"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+      <span class="token property">"permissions"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token string">"SPOT"</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"filters"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+          <span class="token property">"filterType"</span><span class="token operator">:</span> <span class="token string">"UNKNOWN"</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"defaultSelfTradePreventionMode"</span><span class="token operator">:</span> <span class="token string">"NONE"</span><span class="token punctuation">,</span>
+      <span class="token property">"allowedSelfTradePreventionModes"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token null keyword">null</span>
+      <span class="token punctuation">]</span><span class="token punctuation">,</span>
+      <span class="token property">"allowTrailingStop"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+      <span class="token property">"cancelReplaceAllowed"</span><span class="token operator">:</span> <span class="token boolean">false</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"exchangeFilters"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token null keyword">null</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="test-connectivity">Test Connectivity</h2>
+<p><code>GET /api/v3/ping</code></p>
+<p>Test connectivity to the Rest API.<br /><br /><b>Weight(IP):</b> 1</p>
+<h2 id="check-server-time">Check Server Time</h2>
+<p><code>GET /api/v3/time</code></p>
+<p>Test connectivity to the Rest API and get the current server time.<br /><br /><b>Weight(IP):</b> 1</p>
+<blockquote>
+<p>200 Response</p>
+</blockquote>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"serverTime"</span><span class="token operator">:</span> <span class="token number">0</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h1 id="error-codes">Error codes</h1>
+<p>Errors consist of two parts: an error code and a message. Codes are universal,
+but messages can vary. Here is the error JSON payload:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="token punctuation">{</span>
+  <span class="token string">"code"</span><span class="token operator">:</span><span class="token operator">-</span><span class="token number">1121</span><span class="token punctuation">,</span>
+  <span class="token string">"msg"</span><span class="token operator">:</span><span class="token string">"Invalid symbol."</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="10xx---general-server-or-network-issues">10xx - General Server or Network issues</h2>
+<h4 id="-1000-unknown">-1000 UNKNOWN</h4>
+<ul>
+<li>An unknown error occurred while processing the request.</li>
+</ul>
+<h4 id="-1001-disconnected">-1001 DISCONNECTED</h4>
+<ul>
+<li>Internal error; unable to process your request. Please try again.</li>
+</ul>
+<h4 id="-1002-unauthorized">-1002 UNAUTHORIZED</h4>
+<ul>
+<li>You are not authorized to execute this request.</li>
+</ul>
+<h4 id="-1003-too_many_requests">-1003 TOO_MANY_REQUESTS</h4>
+<ul>
+<li>Too many requests queued.</li>
+<li>Too much request weight used; current limit is %s request weight per %s. Please use WebSocket Streams for live updates to avoid polling the API.</li>
+<li>Way too much request weight used; IP banned until %s. Please use WebSocket Streams for live updates to avoid bans.</li>
+</ul>
+<h4 id="-1006-unexpected_resp">-1006 UNEXPECTED_RESP</h4>
+<ul>
+<li>An unexpected response was received from the message bus. Execution status unknown.</li>
+</ul>
+<h4 id="-1007-timeout">-1007 TIMEOUT</h4>
+<ul>
+<li>Timeout waiting for response from backend server. Send status unknown; execution status unknown.</li>
+</ul>
+<h4 id="-1008-server_busy">-1008 SERVER_BUSY</h4>
+<ul>
+<li>Server is currently overloaded with other requests. Please try again in a few minutes.</li>
+</ul>
+<h4 id="-1014-unknown_order_composition">-1014 UNKNOWN_ORDER_COMPOSITION</h4>
+<ul>
+<li>Unsupported order combination.</li>
+</ul>
+<h4 id="-1015-too_many_orders">-1015 TOO_MANY_ORDERS</h4>
+<ul>
+<li>Too many new orders.</li>
+<li>Too many new orders; current limit is %s orders per %s.</li>
+</ul>
+<h4 id="-1016-service_shutting_down">-1016 SERVICE_SHUTTING_DOWN</h4>
+<ul>
+<li>This service is no longer available.</li>
+</ul>
+<h4 id="-1020-unsupported_operation">-1020 UNSUPPORTED_OPERATION</h4>
+<ul>
+<li>This operation is not supported.</li>
+</ul>
+<h4 id="-1021-invalid_timestamp">-1021 INVALID_TIMESTAMP</h4>
+<ul>
+<li>Timestamp for this request is outside of the recvWindow.</li>
+<li>Timestamp for this request was 1000ms ahead of the server’s time.</li>
+</ul>
+<h4 id="-1022-invalid_signature">-1022 INVALID_SIGNATURE</h4>
+<ul>
+<li>Signature for this request is not valid.</li>
+</ul>
+<h2 id="11xx---request-issues">11xx - Request issues</h2>
+<h4 id="-1100-illegal_chars">-1100 ILLEGAL_CHARS</h4>
+<ul>
+<li>Illegal characters found in a parameter.</li>
+<li>Illegal characters found in parameter ‘%s’; legal range is ‘%s’.</li>
+</ul>
+<h4 id="-1101-too_many_parameters">-1101 TOO_MANY_PARAMETERS</h4>
+<ul>
+<li>Too many parameters sent for this endpoint.</li>
+<li>Too many parameters; expected ‘%s’ and received ‘%s’.</li>
+<li>Duplicate values for a parameter detected.</li>
+</ul>
+<h4 id="-1102-mandatory_param_empty_or_malformed">-1102 MANDATORY_PARAM_EMPTY_OR_MALFORMED</h4>
+<ul>
+<li>A mandatory parameter was not sent, was empty/null, or malformed.</li>
+<li>Mandatory parameter ‘%s’ was not sent, was empty/null, or malformed.</li>
+<li>Param ‘%s’ or ‘%s’ must be sent, but both were empty/null!</li>
+</ul>
+<h4 id="-1103-unknown_param">-1103 UNKNOWN_PARAM</h4>
+<ul>
+<li>An unknown parameter was sent.</li>
+</ul>
+<h4 id="-1104-unread_parameters">-1104 UNREAD_PARAMETERS</h4>
+<ul>
+<li>Not all sent parameters were read.</li>
+<li>Not all sent parameters were read; read ‘%s’ parameter(s) but was sent ‘%s’.</li>
+</ul>
+<h4 id="-1105-param_empty">-1105 PARAM_EMPTY</h4>
+<ul>
+<li>A parameter was empty.</li>
+<li>Parameter ‘%s’ was empty.</li>
+</ul>
+<h4 id="-1106-param_not_required">-1106 PARAM_NOT_REQUIRED</h4>
+<ul>
+<li>A parameter was sent when not required.</li>
+<li>Parameter ‘%s’ sent when not required.</li>
+</ul>
+<h4 id="-1108-param_overflow">-1108 PARAM_OVERFLOW</h4>
+<ul>
+<li>Parameter ‘%s’ overflowed.</li>
+</ul>
+<h4 id="-1111-bad_precision">-1111 BAD_PRECISION</h4>
+<ul>
+<li>Precision is over the maximum defined for this asset.</li>
+</ul>
+<h4 id="-1112-no_depth">-1112 NO_DEPTH</h4>
+<ul>
+<li>No orders on book for symbol.</li>
+</ul>
+<h4 id="-1114-tif_not_required">-1114 TIF_NOT_REQUIRED</h4>
+<ul>
+<li>TimeInForce parameter sent when not required.</li>
+</ul>
+<h4 id="-1115-invalid_tif">-1115 INVALID_TIF</h4>
+<ul>
+<li>Invalid timeInForce.</li>
+</ul>
+<h4 id="-1116-invalid_order_type">-1116 INVALID_ORDER_TYPE</h4>
+<ul>
+<li>Invalid orderType.</li>
+</ul>
+<h4 id="-1117-invalid_side">-1117 INVALID_SIDE</h4>
+<ul>
+<li>Invalid side.</li>
+</ul>
+<h4 id="-1118-empty_new_cl_ord_id">-1118 EMPTY_NEW_CL_ORD_ID</h4>
+<ul>
+<li>New client order ID was empty.</li>
+</ul>
+<h4 id="-1119-empty_org_cl_ord_id">-1119 EMPTY_ORG_CL_ORD_ID</h4>
+<ul>
+<li>Original client order ID was empty.</li>
+</ul>
+<h4 id="-1120-bad_interval">-1120 BAD_INTERVAL</h4>
+<ul>
+<li>Invalid interval.</li>
+</ul>
+<h4 id="-1121-bad_symbol">-1121 BAD_SYMBOL</h4>
+<ul>
+<li>Invalid symbol.</li>
+</ul>
+<h4 id="-1125-invalid_listen_key">-1125 INVALID_LISTEN_KEY</h4>
+<ul>
+<li>This listenKey does not exist.</li>
+</ul>
+<h4 id="-1127-more_than_xx_hours">-1127 MORE_THAN_XX_HOURS</h4>
+<ul>
+<li>Lookup interval is too big.</li>
+<li>More than %s hours between startTime and endTime.</li>
+</ul>
+<h4 id="-1128-optional_params_bad_combo">-1128 OPTIONAL_PARAMS_BAD_COMBO</h4>
+<ul>
+<li>Combination of optional parameters invalid.</li>
+</ul>
+<h4 id="-1130-invalid_parameter">-1130 INVALID_PARAMETER</h4>
+<ul>
+<li>Invalid data sent for a parameter.</li>
+<li>Data sent for parameter ‘%s’ is not valid.</li>
+</ul>
+<h4 id="-1134-bad_strategy_type">-1134 BAD_STRATEGY_TYPE</h4>
+<ul>
+<li><code>strategyType</code> was less than 1000000.</li>
+</ul>
+<h4 id="-1135-invalid_json">-1135 INVALID_JSON</h4>
+<ul>
+<li>Invalid JSON Request</li>
+<li>JSON sent for parameter ‘%s’ is not valid</li>
+</ul>
+<h4 id="-1145-invalid_cancel_restrictions">-1145 INVALID_CANCEL_RESTRICTIONS</h4>
+<ul>
+<li><code>cancelRestrictions</code> has to be either <code>ONLY_NEW</code> or <code>ONLY_PARTIALLY_FILLED</code>.</li>
+</ul>
+<h4 id="-1151-duplicate_symbols">-1151 DUPLICATE_SYMBOLS</h4>
+<ul>
+<li>Symbol is present multiple times in the list.</li>
+</ul>
+<h4 id="-2010-new_order_rejected">-2010 NEW_ORDER_REJECTED</h4>
+<ul>
+<li>NEW_ORDER_REJECTED</li>
+</ul>
+<h4 id="-2011-cancel_rejected">-2011 CANCEL_REJECTED</h4>
+<ul>
+<li>CANCEL_REJECTED</li>
+</ul>
+<h4 id="-2013-no_such_order">-2013 NO_SUCH_ORDER</h4>
+<ul>
+<li>Order does not exist.</li>
+</ul>
+<h4 id="-2014-bad_api_key_fmt">-2014 BAD_API_KEY_FMT</h4>
+<ul>
+<li>API-key format invalid.</li>
+</ul>
+<h4 id="-2015-rejected_mbx_key">-2015 REJECTED_MBX_KEY</h4>
+<ul>
+<li>Invalid API-key, IP, or permissions for action.</li>
+</ul>
+<h4 id="-2016-no_trading_window">-2016 NO_TRADING_WINDOW</h4>
+<ul>
+<li>No trading window could be found for the symbol. Try ticker/24hrs instead.</li>
+</ul>
+<h4 id="-2026-order_archived">-2026 ORDER_ARCHIVED</h4>
+<ul>
+<li>Order was canceled or expired with no executed qty over 90 days ago and has been archived.</li>
+</ul>
+<h2 id="messages-for--1010-error_msg_received--2010-new_order_rejected-and--2011-cancel_rejected">Messages for -1010 ERROR_MSG_RECEIVED -2010 NEW_ORDER_REJECTED and -2011 CANCEL_REJECTED</h2>
+<p>This code is sent when an error has been returned by the matching engine.
+The following messages which will indicate the specific error:</p>
+<table>
+<thead>
+<tr>
+<th>Error message</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Unknown order sent.”</td>
+<td>The order (by either <code>orderId</code>, <code>clOrdId</code>, <code>origClOrdId</code>) could not be found</td>
+</tr>
+<tr>
+<td>“Duplicate order sent.”</td>
+<td>The <code>clOrdId</code> is already in use.</td>
+</tr>
+<tr>
+<td>“Market is closed.”</td>
+<td>The symbol is not trading.</td>
+</tr>
+<tr>
+<td>“Account has insufficient balance for requested action.”</td>
+<td>Not enough funds to complete the action.</td>
+</tr>
+<tr>
+<td>“Market orders are not supported for this symbol.”</td>
+<td><code>MARKET</code> is not enabled on the symbol.</td>
+</tr>
+<tr>
+<td>“Iceberg orders are not supported for this symbol.”</td>
+<td><code>icebergQty</code> is not enabled on the symbol.</td>
+</tr>
+<tr>
+<td>“Stop loss orders are not supported for this symbol.”</td>
+<td><code>STOP_LOSS</code> is not enabled on the symbol.</td>
+</tr>
+<tr>
+<td>“Stop loss limit orders are not supported for this symbol.”</td>
+<td><code>STOP_LOSS_LIMIT</code> is not enabled on the symbol.</td>
+</tr>
+<tr>
+<td>“Take profit orders are not supported for this symbol.”</td>
+<td><code>TAKE_PROFIT</code> is not enabled on the symbol.</td>
+</tr>
+<tr>
+<td>“Take profit limit orders are not supported for this symbol.”</td>
+<td><code>TAKE_PROFIT_LIMIT</code> is not enabled on the symbol.</td>
+</tr>
+<tr>
+<td>“Price * QTY is zero or less.”</td>
+<td><code>price</code> * <code>quantity</code> is too low.</td>
+</tr>
+<tr>
+<td>“IcebergQty exceeds QTY.”</td>
+<td><code>icebergQty</code> must be less than the order quantity.</td>
+</tr>
+<tr>
+<td>“This action is disabled on this account.”</td>
+<td>Contact customer support; some actions have been disabled on the account.</td>
+</tr>
+<tr>
+<td>“This account may not place or cancel orders.”</td>
+<td>Contact customer support; the account has trading ability disabled.</td>
+</tr>
+<tr>
+<td>“Unsupported order combination”</td>
+<td>The <code>orderType</code>, <code>timeInForce</code>, <code>stopPrice</code>, and/or <code>icebergQty</code> combination isn’t allowed.</td>
+</tr>
+<tr>
+<td>“Order would trigger immediately.”</td>
+<td>The order’s stop price is not valid when compared to the last traded price.</td>
+</tr>
+<tr>
+<td>“Cancel order is invalid. Check origClOrdId and orderId.”</td>
+<td>No <code>origClOrdId</code> or <code>orderId</code> was sent in.</td>
+</tr>
+<tr>
+<td>“Order would immediately match and take.”</td>
+<td><code>LIMIT_MAKER</code> order type would immediately match and trade, and not be a pure maker order.</td>
+</tr>
+<tr>
+<td>“The relationship of the prices for the orders is not correct.”</td>
+<td>The prices set in the <code>OCO</code> is breaking the Price rules. <br/> The rules are: <br/> <code>SELL Orders</code>: Limit Price &gt; Last Price &gt; Stop Price <br/><code>BUY Orders</code>: Limit Price &lt; Last Price &lt; Stop Price</td>
+</tr>
+<tr>
+<td>“OCO orders are not supported for this symbol”</td>
+<td><code>OCO</code> is not enabled on the symbol.</td>
+</tr>
+<tr>
+<td>“Quote order qty market orders are not support for this symbol.”</td>
+<td><code>MARKET</code> orders using the parameter <code>quoteOrderQty</code> are not enabled on the symbol.</td>
+</tr>
+<tr>
+<td>“Trailing stop orders are not supported for this symbol.”</td>
+<td>Orders using <code>trailingDelta</code> are not enabled on the symbol.</td>
+</tr>
+<tr>
+<td>“Order cancel-replace is not supported for this symbol.”</td>
+<td><code>POST /api/v3/order/cancelReplace</code> is not enabled for the symbol.</td>
+</tr>
+<tr>
+<td>“This symbol is not permitted for this account.”</td>
+<td>Account does not have permission to trade on this symbol.</td>
+</tr>
+<tr>
+<td>“This symbol is restricted for this account.”</td>
+<td>Account does not have permission to trade on this symbol.</td>
+</tr>
+<tr>
+<td>“Order was not canceled due to cancel restrictions.”</td>
+<td>Either <code>cancelRestrictions</code> was set to <code>ONLY_NEW</code> but the order status was not <code>NEW</code> <br/> or <br/> <code>cancelRestrictions</code> was set to <code>ONLY_PARTIALLY_FILLED</code> but the order status was not <code>PARTIALLY_FILLED</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="errors-regarding-post-%2Fapi%2Fv3%2Forder%2Fcancelreplace">Errors regarding POST /api/v3/order/cancelReplace</h2>
+<h3 id="-2021-order-cancel-replace-partially-failed">-2021 Order cancel-replace partially failed</h3>
+<p>This code is sent when either the cancellation of the order failed or the new order placement failed but not both.</p>
+<h3 id="-2022-order-cancel-replace-failed.">-2022 Order cancel-replace failed.</h3>
+<p>This code is sent when both the cancellation of the order failed and the new order placement failed.</p>
+<h2 id="filter-failures">Filter failures</h2>
+<table>
+<thead>
+<tr>
+<th>Error message</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Filter failure: PRICE_FILTER”</td>
+<td><code>price</code> is too high, too low, and/or not following the tick size rule for the symbol.</td>
+</tr>
+<tr>
+<td>“Filter failure: PERCENT_PRICE”</td>
+<td><code>price</code> is X% too high or X% too low from the average weighted price over the last Y minutes.</td>
+</tr>
+<tr>
+<td>“Filter failure: LOT_SIZE”</td>
+<td><code>quantity</code> is too high, too low, and/or not following the step size rule for the symbol.</td>
+</tr>
+<tr>
+<td>“Filter failure: MIN_NOTIONAL”</td>
+<td><code>price</code> * <code>quantity</code> is too low to be a valid order for the symbol.</td>
+</tr>
+<tr>
+<td>“Filter failure: ICEBERG_PARTS”</td>
+<td><code>ICEBERG</code> order would break into too many parts; icebergQty is too small.</td>
+</tr>
+<tr>
+<td>“Filter failure: MARKET_LOT_SIZE”</td>
+<td><code>MARKET</code> order’s <code>quantity</code> is too high, too low, and/or not following the step size rule for the symbol.</td>
+</tr>
+<tr>
+<td>“Filter failure: MAX_POSITION”</td>
+<td>The account’s position has reached the maximum defined limit. <br/> This is composed of the sum of the balance of the base asset, and the sum of the quantity of all open <code>BUY</code> orders.</td>
+</tr>
+<tr>
+<td>“Filter failure: MAX_NUM_ORDERS”</td>
+<td>Account has too many open orders on the symbol.</td>
+</tr>
+<tr>
+<td>“Filter failure: MAX_NUM_ALGO_ORDERS”</td>
+<td>Account has too many open stop loss and/or take profit orders on the symbol.</td>
+</tr>
+<tr>
+<td>“Filter failure: MAX_NUM_ICEBERG_ORDERS”</td>
+<td>Account has too many open iceberg orders on the symbol.</td>
+</tr>
+<tr>
+<td>“Filter failure: TRAILING_DELTA”</td>
+<td><code>trailingDelta</code> is not within the defined range of the filter for that order type.</td>
+</tr>
+<tr>
+<td>“Filter failure: EXCHANGE_MAX_NUM_ORDERS”</td>
+<td>Account has too many open orders on the exchange.</td>
+</tr>
+<tr>
+<td>“Filter failure: EXCHANGE_MAX_NUM_ALGO_ORDERS”</td>
+<td>Account has too many open stop loss and/or take profit orders on the exchange.</td>
+</tr>
+<tr>
+<td>“Filter failure: EXCHANGE_MAX_NUM_ICEBERG_ORDERS”</td>
+<td>Account has too many open iceberg orders on the exchange.</td>
+</tr>
+</tbody>
+</table>
+
+      </div>
+      <div class="dark-box">
+        
+      </div>
+    </div>
+  </body>
+</html>
