@@ -36,7 +36,7 @@
       windowHeight = $(window).height();
 
       $toc.find(tocLinkSelector).each(function() {
-        var targetId = $(this).attr('href');
+        var targetId = decodeURIComponent($(this).attr('href'));
         if ((targetId[0] === "#") && (targetId !== "#")) {
           try {
             headerHeights[targetId] = $(targetId).offset().top;
